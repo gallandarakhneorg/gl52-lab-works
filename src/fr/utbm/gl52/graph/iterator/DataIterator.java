@@ -1,11 +1,11 @@
-package fr.utbm.gl52.tree.iterator;
+package fr.utbm.gl52.graph.iterator;
 
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
-import fr.utbm.gl52.tree.model.TreeNode;
+import fr.utbm.gl52.graph.model.GraphNode;
 
 /** Iterator on data in a data structure.
  * 
@@ -14,7 +14,7 @@ import fr.utbm.gl52.tree.model.TreeNode;
  */
 public class DataIterator<D> implements Iterator<D> {
 
-	private final Iterator<? extends TreeNode<?, D>> nodes;
+	private final Iterator<? extends GraphNode<?, ?, D>> nodes;
 
 	private final Deque<D> candidates = new LinkedList<>();
 	
@@ -22,7 +22,7 @@ public class DataIterator<D> implements Iterator<D> {
 	 *
 	 * @param nodes is the iterator on the nodes to go through.
 	 */
-	public DataIterator(Iterator<? extends TreeNode<?, D>> nodes) {
+	public DataIterator(Iterator<? extends GraphNode<?, ?, D>> nodes) {
 		assert nodes != null;
 		this.nodes = nodes;
 		searchNextCandidates();
@@ -30,7 +30,7 @@ public class DataIterator<D> implements Iterator<D> {
 
 	private void searchNextCandidates() {
 		while (this.candidates.isEmpty() && this.nodes.hasNext()) {
-			final TreeNode<?, D> node = this.nodes.next();
+			final GraphNode<?, ?, D> node = this.nodes.next();
 			this.candidates.addAll(node.getData());
 		}
 	}
