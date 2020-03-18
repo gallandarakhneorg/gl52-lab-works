@@ -9,7 +9,7 @@ import fr.utbm.gl52.stack.Stack;
 import fr.utbm.gl52.stack.StackException;
 import fr.utbm.gl52.stack.StackListener;
 
-/** Main program for TP1 of GL51.
+/** Main program for TP1 of GL52.
  * 
  * @author sgalland
  */
