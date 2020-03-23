@@ -26,6 +26,8 @@ public interface Stack<T> extends Iterable<T> {
 	T pop() throws StackException;
 	
 	/** Replies {@code true} if there is no element into the stack, {@code false} otherwise.
+	 * The default implements invokes {@link #size()} and tests if the returned value is evaluated
+	 * to {@code 0}.
 	 *
 	 * @return the empty state of the stack.
 	 */
