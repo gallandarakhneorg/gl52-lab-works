@@ -36,9 +36,6 @@ public class AscendingOrderSorter implements Sorter {
 		if (a instanceof Number) {
 			return Double.compare(((Number) a).doubleValue(), ((Number) b).doubleValue());
 		}
-		if (a instanceof String) {
-			return ((String) a).compareTo((String) b);
-		}
 		return Integer.compare(System.identityHashCode(a), System.identityHashCode(b));
 	};
 	
