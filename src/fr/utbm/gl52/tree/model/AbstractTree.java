@@ -3,7 +3,6 @@ package fr.utbm.gl52.tree.model;
 import java.util.Iterator;
 
 import fr.utbm.gl52.tree.factory.TreeNodeFactory;
-import fr.utbm.gl52.tree.iterator.DepthNLRTreeNodeIterator;
 
 /** This interface represents a tree of data.
  * 
@@ -45,11 +44,6 @@ public abstract class AbstractTree<N extends AbstractTreeNode<N, D>, D> implemen
 	@Override
 	public int getMaximumDepth() {
 		return getRoot().getMaximumDepth();
-	}
-
-	@Override
-	public Iterator<N> iterator() {
-		return new DepthNLRTreeNodeIterator<>(getRoot());
 	}
 
 	@Override

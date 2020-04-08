@@ -3,7 +3,7 @@ package fr.utbm.gl52.tree.model;
 import java.util.Iterator;
 
 import fr.utbm.gl52.tree.iterator.DataIterator;
-import fr.utbm.gl52.tree.iterator.DepthNLRTreeNodeIterator;
+import fr.utbm.gl52.tree.iterator.DepthNCTreeNodeIterator;
 import fr.utbm.gl52.tree.observer.TreeListener;
 
 /** This interface represents a tree of data.
@@ -45,7 +45,7 @@ public interface Tree<N extends TreeNode<N, D>, D> extends Iterable<N> {
 
 	@Override
 	default Iterator<N> iterator() {
-		return new DepthNLRTreeNodeIterator<>(getRoot());
+		return new DepthNCTreeNodeIterator<>(getRoot());
 	}
 
 	/** Add an observer on the events related to data.
