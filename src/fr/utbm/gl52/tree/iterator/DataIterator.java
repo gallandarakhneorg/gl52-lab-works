@@ -1,8 +1,6 @@
 package fr.utbm.gl52.tree.iterator;
 
-import java.util.Deque;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 import fr.utbm.gl52.tree.model.TreeNode;
@@ -16,8 +14,8 @@ public class DataIterator<D> implements Iterator<D> {
 
 	private final Iterator<? extends TreeNode<?, D>> nodes;
 
-	private final Deque<D> candidates = new LinkedList<>();
-	
+	private Iterator<D> candidates;
+
 	/** Constructor the iterator based on the nodes replied by the given iterator.
 	 *
 	 * @param nodes is the iterator on the nodes to go through.
@@ -29,20 +27,20 @@ public class DataIterator<D> implements Iterator<D> {
 	}
 
 	private void searchNextCandidates() {
-		while (this.candidates.isEmpty() && this.nodes.hasNext()) {
+		while ((this.candidates == null || !this.candidates.hasNext()) && this.nodes.hasNext()) {
 			final TreeNode<?, D> node = this.nodes.next();
-			this.candidates.addAll(node.getData());
+			this.candidates = node.getData().iterator();
 		}
 	}
 
 	@Override
 	public boolean hasNext() {
-		return !this.candidates.isEmpty();
+		return this.candidates != null && this.candidates.hasNext();
 	}
 
 	@Override
 	public D next() {
-		final D data = this.candidates.remove();
+		final D data = this.candidates.next();
 		if (data == null) {
 			throw new NoSuchElementException();
 		}

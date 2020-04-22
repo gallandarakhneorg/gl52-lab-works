@@ -1,8 +1,6 @@
 package fr.utbm.gl52.graph.iterator;
 
-import java.util.Deque;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 import fr.utbm.gl52.graph.model.GraphNode;
@@ -16,7 +14,7 @@ public class DataIterator<D> implements Iterator<D> {
 
 	private final Iterator<? extends GraphNode<?, ?, D>> nodes;
 
-	private final Deque<D> candidates = new LinkedList<>();
+	private Iterator<D> candidates;
 	
 	/** Constructor the iterator based on the nodes replied by the given iterator.
 	 *
@@ -29,20 +27,20 @@ public class DataIterator<D> implements Iterator<D> {
 	}
 
 	private void searchNextCandidates() {
-		while (this.candidates.isEmpty() && this.nodes.hasNext()) {
+		while ((this.candidates == null || !this.candidates.hasNext()) && this.nodes.hasNext()) {
 			final GraphNode<?, ?, D> node = this.nodes.next();
-			this.candidates.addAll(node.getData());
+			this.candidates = node.getData().iterator();
 		}
 	}
 
 	@Override
 	public boolean hasNext() {
-		return !this.candidates.isEmpty();
+		return this.candidates != null && this.candidates.hasNext();
 	}
 
 	@Override
 	public D next() {
-		final D data = this.candidates.remove();
+		final D data = this.candidates.next();
 		if (data == null) {
 			throw new NoSuchElementException();
 		}
