@@ -1,10 +1,12 @@
 package fr.utbm.gl52.graph.model.arraylist;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
 import fr.utbm.gl52.graph.model.AbstractGraphNode;
+import fr.utbm.gl52.util.CollectionUtils;
 
 /** Implementation of a node in a graph that is based on an {@code ArrayList}.
  * 
@@ -13,9 +15,9 @@ import fr.utbm.gl52.graph.model.AbstractGraphNode;
  */
 public class ArrayListGraphNode<D> extends AbstractGraphNode<ArrayListGraphNode<D>, ArrayListGraphEdge<D>, D> {
 
-	private final Collection<ArrayListGraphEdge<D>> startEdges = new ArrayList<>();
+	private final Collection<WeakReference<ArrayListGraphEdge<D>>> startEdges = new ArrayList<>();
 	
-	private final Collection<ArrayListGraphEdge<D>> endEdges = new ArrayList<>();
+	private final Collection<WeakReference<ArrayListGraphEdge<D>>> endEdges = new ArrayList<>();
 
 	/** Constructor.
 	 *
@@ -28,24 +30,28 @@ public class ArrayListGraphNode<D> extends AbstractGraphNode<ArrayListGraphNode<
 
 	@Override
 	public Collection<ArrayListGraphEdge<D>> getStartingEdges() {
-		return Collections.unmodifiableCollection(this.startEdges);
+		return Collections.unmodifiableCollection(
+				CollectionUtils.transform(this.startEdges,
+					(currentElement) -> currentElement.get()));
 	}
 
 	@Override
 	public Collection<ArrayListGraphEdge<D>> getArrivingEdges() {
-		return Collections.unmodifiableCollection(this.endEdges);
+		return Collections.unmodifiableCollection(
+				CollectionUtils.transform(this.endEdges,
+					(currentElement) -> currentElement.get()));
 	}
 
 	@Override
 	public void connectStartingEdge(ArrayListGraphEdge<D> edge) {
 		edge.setStartingNode(this);
-		this.startEdges.add(edge);
+		this.startEdges.add(new WeakReference<>(edge));
 	}
 
 	@Override
 	public void connectArrivingEdge(ArrayListGraphEdge<D> edge) {
 		edge.setEndingNode(this);
-		this.endEdges.add(edge);
+		this.endEdges.add(new WeakReference<>(edge));
 	}
 
 }
