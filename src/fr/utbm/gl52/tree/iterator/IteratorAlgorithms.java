@@ -1,8 +1,8 @@
 package fr.utbm.gl52.tree.iterator;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 import fr.utbm.gl52.tree.model.TreeNode;
 
@@ -15,58 +15,63 @@ import fr.utbm.gl52.tree.model.TreeNode;
 @SuppressWarnings("all")
 class IteratorAlgorithms {
 
-	void breadthFirstIterator_iterative(
-			TreeNode<?, ?> root,
-			Function<TreeNode<?,?>, Void> callback) {
+	void breadthFirstIterator_iterative(TreeNode<?, ?> root) { // Arguments => arguments' constructor
 		
+		// Local variables => attributes
 		final LinkedList<TreeNode<?, ?>> queue = new LinkedList<>();
 		
+		// Constructors' code
 		queue.add(root);
 		
+		// Consition => stop condition (hasNext)
 		while (!queue.isEmpty()) {
 			
+			// Code of next()
 			final TreeNode<?, ?> element = queue.removeFirst();
 			
+			// Code of next()
 			for (final TreeNode<?, ?> child : element.getChildren()) {
 				queue.add(child);
 			}
 			
-			callback.apply(element);
+			// Do action AAA with the element
 			
 		}
 	}
 	
 	/////////////////////////////////////////////////
 	
-	void iterator_init(LinkedList<TreeNode<?,?>> queue, TreeNode<?,?> root) {
-		queue.add(root);
-	}
-	
-	boolean iterator_hasNext(LinkedList<TreeNode<?,?>> queue) {
-		return !queue.isEmpty();
-	}
-	
-	TreeNode<?,?> iterator_next(LinkedList<TreeNode<?,?>> queue) {
-		TreeNode<?,?> element = queue.removeFirst();
-		for (final TreeNode<?, ?> child : element.getChildren()) {
-			queue.add(child);
+	class MyIterator implements Iterator<TreeNode<?,?>> {
+		
+		private LinkedList<TreeNode<?,?>> queue = new LinkedList<>();
+		
+		public MyIterator(TreeNode<?,?> root) {
+			queue.add(root);
 		}
-		return element;
+		
+		public boolean hasNext() {
+			return !queue.isEmpty();
+		}
+		
+		public TreeNode<?,?> next() {
+			TreeNode<?,?> element = queue.removeFirst();
+			for (final TreeNode<?, ?> child : element.getChildren()) {
+				queue.add(child);
+			}
+			return element;
+		}
+
 	}
 
-	void breadthFirstIterator_iterator(
-			TreeNode<?, ?> root,
-			Function<TreeNode<?,?>, Void> callback) {
+	void doSomething(TreeNode<?, ?> root) {
 		
-		final LinkedList<TreeNode<?, ?>> queue = new LinkedList<>();
+		Iterator<TreeNode<?,?>> iter = new MyIterator(root);
 		
-		iterator_init(queue, root);
-		
-		while (iterator_hasNext(queue)) {
+		while (iter.hasNext()) {
 			
-			final TreeNode<?, ?> element = iterator_next(queue);
+			final TreeNode<?, ?> element = iter.next();
 						
-			callback.apply(element);
+			// Do action AAA with the element
 			
 		}
 	}

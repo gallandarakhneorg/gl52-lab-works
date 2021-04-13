@@ -12,6 +12,12 @@ import java.util.NoSuchElementException;
  */
 public abstract class AbstractStack<T> implements Stack<T> {
 
+	@Override
+	public boolean isEmpty() {
+		return size() == 0;
+	}
+
+
 	private Collection<StackListener> listeners;
 
 	@Override
@@ -102,6 +108,20 @@ public abstract class AbstractStack<T> implements Stack<T> {
 	 */
 	protected abstract T getElementAt(int index);
 
+	public static void main(String[] args) {
+		Stack<Integer> s = new ArrayStack<Integer>();
+		s.push(2);
+		s.push(6);
+		s.push(125);
+		s.push(45);
+		
+		Iterator<Integer> iterator = s.iterator();
+		while (iterator.hasNext()) {
+			Integer value = iterator.next();
+			System.out.println(value);
+		}
+	}
+	
 	/** An iterator on a stack that is replying the elements from the top to the bottom
 	 * of the stack.
 	 *

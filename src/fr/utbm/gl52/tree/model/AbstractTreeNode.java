@@ -128,10 +128,10 @@ public abstract class AbstractTreeNode<N extends AbstractTreeNode<N, D>, D> impl
 	 * @param event the event associated to the added data.
 	 */
 	protected void fireDataAdded(TreeDataEvent event) {
-		// We must clone the list of listeners because the stack's functions
+		// We must clone the list of listeners because the tree's functions
 		// could be called from the listener's functions (or any function called
 		// from the listener's functions). This may cause an invalid result, or
-		// the famous JAva exception "ConcurrentModificationException".
+		// the famous Java exception "ConcurrentModificationException".
 		if (this.listeners != null) {
 			final TreeListener[] observers = new TreeListener[this.listeners.size()];
 			this.listeners.toArray(observers);
@@ -159,10 +159,10 @@ public abstract class AbstractTreeNode<N extends AbstractTreeNode<N, D>, D> impl
 	 * @param event the event associated to the removed data.
 	 */
 	protected void fireDataRemoved(TreeDataEvent event) {
-		// We must clone the list of listeners because the stack's functions
+		// We must clone the list of listeners because the tree's functions
 		// could be called from the listener's functions (or any function called
 		// from the listener's functions). This may cause an invalid result, or
-		// the famous JAva exception "ConcurrentModificationException".
+		// the famous Java exception "ConcurrentModificationException".
 		if (this.listeners != null) {
 			final TreeListener[] observers = new TreeListener[this.listeners.size()];
 			this.listeners.toArray(observers);
@@ -190,10 +190,10 @@ public abstract class AbstractTreeNode<N extends AbstractTreeNode<N, D>, D> impl
 	 * @param event the event associated to the added data.
 	 */
 	protected void fireChildAdded(TreeEvent event) {
-		// We must clone the list of listeners because the stack's functions
+		// We must clone the list of listeners because the tree's functions
 		// could be called from the listener's functions (or any function called
 		// from the listener's functions). This may cause an invalid result, or
-		// the famous JAva exception "ConcurrentModificationException".
+		// the famous Java exception "ConcurrentModificationException".
 		if (this.listeners != null) {
 			final TreeListener[] observers = new TreeListener[this.listeners.size()];
 			this.listeners.toArray(observers);
