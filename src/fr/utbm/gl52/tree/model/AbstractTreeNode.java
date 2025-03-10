@@ -203,7 +203,12 @@ public abstract class AbstractTreeNode<N extends AbstractTreeNode<N, D>, D> impl
 		}
 	}
 
-	/** Notify the observers that a child node was added.
+	/** Notify the observers on this node and on the root node that a child node was added in
+	 * the current node.
+	 *
+	 * <p>For performance reasons, w skip the observers on intermediate nodes (between the current
+	 * node and the root node) because they are usually not interested by the node creation event
+	 * in the application cases targeted by this tree API.
 	 *
 	 * @param child the new child.
 	 * @param index the index of the child.
@@ -211,6 +216,7 @@ public abstract class AbstractTreeNode<N extends AbstractTreeNode<N, D>, D> impl
 	protected void fireChildAdded(N child, int index) {
 		final TreeEvent event = new TreeEvent(this, child, index);
 		fireChildAdded(event);
+		// Why getRoot? and not getParent?
 		final N root = getRoot();
 		if (root != null && root != this) {
 			root.fireChildAdded(event);

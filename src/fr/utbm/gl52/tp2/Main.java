@@ -36,7 +36,7 @@ public class Main {
 
 			@Override
 			public void childCreated(TreeEvent event) {
-				System.out.println("CHID-ADDED: " + event.getSource()); //$NON-NLS-1$
+				System.out.println("CHILD-ADDED: " + event.getSource()); //$NON-NLS-1$
 			}
 	
 		};

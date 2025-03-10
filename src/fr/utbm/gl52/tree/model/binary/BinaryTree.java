@@ -9,6 +9,11 @@ import fr.utbm.gl52.tree.factory.TreeNodeFactory;
  */
 public class BinaryTree<D> extends AbstractBinaryTree<BinaryTreeNode<D>, D> {
 
+	/** The singleton of the node factory.
+	 */
+	@SuppressWarnings("rawtypes")
+	private static final Factory FACTORY_SINGLETON = new Factory<>();
+
 	/** Constructor of a tree with this node factory.
 	 *
 	 * @param factory the node factory.
@@ -21,7 +26,26 @@ public class BinaryTree<D> extends AbstractBinaryTree<BinaryTreeNode<D>, D> {
 	 */
 	@SuppressWarnings("unchecked")
 	public BinaryTree() {
-		super(BinaryTreeNode.FACTORY_SINGLETON);
+		super(FACTORY_SINGLETON);
+	}
+
+	/** Factory of binary tree nodes.
+	 * 
+	 * @author sgalland
+	 * @param <D> the type of the data that is stored into the tree.
+	 */
+	public static class Factory<D> implements TreeNodeFactory<BinaryTreeNode<D>> {
+
+		@Override
+		public BinaryTreeNode<D> createRootNode() {
+			return new BinaryTreeNode<>(this);
+		}
+
+		@Override
+		public BinaryTreeNode<D> create(BinaryTreeNode<D> parent) {
+			return new BinaryTreeNode<>(parent, this);
+		}
+		
 	}
 
 }

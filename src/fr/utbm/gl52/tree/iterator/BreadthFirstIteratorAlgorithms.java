@@ -13,7 +13,7 @@ import fr.utbm.gl52.tree.model.TreeNode;
  * @see "https://en.wikipedia.org/wiki/Tree_traversal"
  */
 @SuppressWarnings("all")
-class IteratorAlgorithms {
+class BreadthFirstIteratorAlgorithms {
 
 	void breadthFirstIterator_iterative(TreeNode<?, ?> root) { // Arguments => arguments' constructor
 		
@@ -23,7 +23,7 @@ class IteratorAlgorithms {
 		// Constructors' code
 		queue.add(root);
 		
-		// Consition => stop condition (hasNext)
+		// Condition => stop condition (hasNext)
 		while (!queue.isEmpty()) {
 			
 			// Code of next()

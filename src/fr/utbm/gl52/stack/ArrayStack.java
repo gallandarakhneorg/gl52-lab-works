@@ -1,6 +1,8 @@
 package fr.utbm.gl52.stack;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /** Stack implementation based on an internal array.
  * This implementation is not thread-safe.
@@ -10,7 +12,7 @@ import java.util.Arrays;
  */
 public class ArrayStack<T> extends AbstractStack<T> {
 
-	private T[] content = null;
+	private T[] content;
 	
 	/** Construct an empty stack.
 	 */
@@ -31,19 +33,16 @@ public class ArrayStack<T> extends AbstractStack<T> {
 	}
 	
 	@Override
-	public void push(T data) {
-		if (data != null) {
-			grow(this.content.length + 1);
-			this.content[this.content.length - 1] = data;
-			fireDataAdded(data);
-		}
+	public void push(final T data) {
+		assert data != null;
+		grow(this.content.length + 1);
+		this.content[this.content.length - 1] = data;
+		fireDataAdded(data);
 	}
 
 	@Override
 	public T pop() throws StackException {
-		if (this.content.length == 0) {
-			throw new StackException();
-		}
+		assert this.content.length != 0;
 		final T topData = this.content[this.content.length - 1];
 		grow(this.content.length - 1);
 		fireDataRemoved(topData);
@@ -61,6 +60,36 @@ public class ArrayStack<T> extends AbstractStack<T> {
 			throw new IndexOutOfBoundsException();
 		}
 		return this.content[index];
+	}
+
+	/** An iterator on a stack that is replying the elements from the top to the bottom
+	 * of the stack.
+	 *
+	 * @author sgalland
+	 */
+	private class StackIterator implements Iterator<T> {
+
+		private int position;
+
+		StackIterator() {
+			this.position = ArrayStack.this.content.length - 1;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return this.position >= 0;
+		}
+
+		@Override
+		public T next() {
+			if (this.position < 0) {
+				throw new NoSuchElementException();
+			}
+			final T dataElement = ArrayStack.this.content[this.position];
+			--this.position;
+			return dataElement;
+		}
+		
 	}
 
 }

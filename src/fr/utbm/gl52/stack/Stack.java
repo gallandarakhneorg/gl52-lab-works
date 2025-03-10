@@ -11,7 +11,7 @@ public interface Stack<T> extends Iterable<T> {
 
 	/** Put the data at the top position into the stack.
 	 *
-	 * @param data the data element to put at the top-most position of the stack.
+	 * @param data the data element to put at the top-most position of the stack. The data cannot be {@code null}.
 	 * If the {@code data} is equal to {@code null}, it is not put into the stack.
 	 */
 	void push(T data);
@@ -31,9 +31,11 @@ public interface Stack<T> extends Iterable<T> {
 	 *
 	 * @return the empty state of the stack.
 	 */
+	boolean isEmpty();
+	/*
 	default boolean isEmpty() {
 		return size() == 0;
-	}
+	}*/
 	
 	/** Replies the number of elements into the stack.
 	 *

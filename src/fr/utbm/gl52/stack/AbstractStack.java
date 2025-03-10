@@ -17,9 +17,103 @@ public abstract class AbstractStack<T> implements Stack<T> {
 		return size() == 0;
 	}
 
+	@Override
+	public String toString() {
+		final Iterator<T> iterator = iterator();
+		final StringBuilder stringRepresentation = new StringBuilder();
+		stringRepresentation.append("{"); //$NON-NLS-1$
+		boolean first = true;
+		while (iterator.hasNext()) {
+			final T element = iterator.next();
+			if (first) {
+				first = false;
+			} else {
+				stringRepresentation.append(", "); //$NON-NLS-1$
+			}
+			stringRepresentation.append(element.toString());
+		}
+		stringRepresentation.append("}"); //$NON-NLS-1$
+		return stringRepresentation.toString();
+	}
 
+	@Override
+	public Iterator<T> iterator() {
+		//return new ExternalStackIterator<>(this);
+		return new StackIterator();
+	}
+
+	/** Replies the element at the given position into the stack.
+	 *
+	 * @param index the index of the element to retrieve.
+	 * @return the element.
+	 * @throws IndexOutOfBoundsException if the index is not inside the stack.
+	 */
+	protected abstract T getElementAt(int index);
+	
+	/** An iterator on a stack that is replying the elements from the top to the bottom
+	 * of the stack.
+	 *
+	 * @author sgalland
+	 */
+	private class StackIterator implements Iterator<T> {
+
+		private int position;
+
+		StackIterator() {
+			this.position = AbstractStack.this.size() - 1;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return this.position >= 0;
+		}
+
+		@Override
+		public T next() {
+			/*if (this.position < 0) {
+				throw new NoSuchElementException();
+			}*/
+			assert this.position >= 0 : "Fucking developer";
+			final T dataElement = AbstractStack.this.getElementAt(this.position);
+			--this.position;
+			return dataElement;
+		}
+		
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	private Collection<StackListener> listeners;
 
+	
+	
 	@Override
 	public final void addStackListener(StackListener listener) {
 		assert listener != null;
@@ -55,6 +149,9 @@ public abstract class AbstractStack<T> implements Stack<T> {
 			for (final StackListener observer : observers) {
 				observer.dataAdded(this, data);
 			}
+			/*for (final StackListener observer : this.listeners) {
+				observer.dataAdded(this, data);
+			}*/
 		}
 	}
 
@@ -74,82 +171,6 @@ public abstract class AbstractStack<T> implements Stack<T> {
 				observer.dataRemoved(this, data);
 			}
 		}
-	}
-
-	@Override
-	public String toString() {
-		final Iterator<T> iterator = iterator();
-		final StringBuilder stringRepresentation = new StringBuilder();
-		stringRepresentation.append("{"); //$NON-NLS-1$
-		boolean first = true;
-		while (iterator.hasNext()) {
-			final T element = iterator.next();
-			if (first) {
-				first = false;
-			} else {
-				stringRepresentation.append(", "); //$NON-NLS-1$
-			}
-			stringRepresentation.append(element.toString());
-		}
-		stringRepresentation.append("}"); //$NON-NLS-1$
-		return stringRepresentation.toString();
-	}
-
-	@Override
-	public Iterator<T> iterator() {
-		return new StackIterator();
-	}
-
-	/** Replies the element at the given position into the stack.
-	 *
-	 * @param index the index of the element to retrieve.
-	 * @return the element.
-	 * @throws IndexOutOfBoundsException if the index is not inside the stack.
-	 */
-	protected abstract T getElementAt(int index);
-
-	public static void main(String[] args) {
-		Stack<Integer> s = new ArrayStack<Integer>();
-		s.push(2);
-		s.push(6);
-		s.push(125);
-		s.push(45);
-		
-		Iterator<Integer> iterator = s.iterator();
-		while (iterator.hasNext()) {
-			Integer value = iterator.next();
-			System.out.println(value);
-		}
-	}
-	
-	/** An iterator on a stack that is replying the elements from the top to the bottom
-	 * of the stack.
-	 *
-	 * @author sgalland
-	 */
-	private class StackIterator implements Iterator<T> {
-
-		private int position;
-
-		StackIterator() {
-			this.position = AbstractStack.this.size() - 1;
-		}
-		
-		@Override
-		public boolean hasNext() {
-			return this.position >= 0;
-		}
-
-		@Override
-		public T next() {
-			if (this.position < 0) {
-				throw new NoSuchElementException();
-			}
-			final T dataElement = AbstractStack.this.getElementAt(this.position);
-			--this.position;
-			return dataElement;
-		}
-		
 	}
 
 }
