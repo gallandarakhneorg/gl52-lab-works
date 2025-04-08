@@ -19,6 +19,12 @@ public class ArrayStack<T> extends AbstractStack<T> {
 	public ArrayStack() {
 		grow(0);
 	}
+	
+	@Override
+	public boolean isEmpty() {
+		// This implementation is faster than the default code
+		return this.content.length == 0;
+	}
 
 	// The following annotation is added because there is no other mean
 	// to avoid unchecked warning from Object[] to T[]

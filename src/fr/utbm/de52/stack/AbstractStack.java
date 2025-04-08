@@ -7,14 +7,17 @@ import java.util.Iterator;
 /** Abstract implementation of a stack.
  *
  * @author sgalland
- * @param <T> the typeof the data stored into the stack.
+ * @param <T> the type of the data stored into the stack.
  */
 public abstract class AbstractStack<T> implements Stack<T> {
 
-	@Override
+	// This function does not need to be implemented here because of the
+	// default implementation that is defined in the super interface.
+	// Therefore the code in automatically inherited from the stack definition.
+	/*@Override
 	public boolean isEmpty() {
 		return size() == 0;
-	}
+	}*/
 
 	@Override
 	public String toString() {

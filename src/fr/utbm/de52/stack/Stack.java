@@ -32,6 +32,7 @@ public interface Stack<T> extends Iterable<T> {
 	 * @return the empty state of the stack.
 	 */
 	//boolean isEmpty();
+	// Default Java function in interface is a better choice for fulfilling he DRY principle
 	default boolean isEmpty() {
 		return size() == 0;
 	}
